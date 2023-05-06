@@ -1,4 +1,6 @@
+import requests
 from django.db import models
+from typing import List
 
 
 class Place(models.Model):
@@ -14,3 +16,13 @@ class Place(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Image(models.Model):
+    place = models.ForeignKey(Place, on_delete=models.CASCADE, null=False, related_name='images', verbose_name='Место')
+    image = models.ImageField(upload_to='places/', verbose_name='Ссылка на изображение')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name='Дата обновления')
+
+    def __str__(self):
+        return f'{self.id}. {self.place.title}'
