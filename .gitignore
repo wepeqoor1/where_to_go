@@ -1,3 +1,5 @@
 .idea/
-.env
 .mypy_cache/
+media/
+.env
+
