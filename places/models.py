@@ -9,12 +9,14 @@ class Place(models.Model):
     longitude = models.FloatField(max_length=10, verbose_name='Долгота')
     latitude = models.FloatField(max_length=10, verbose_name='Широта')
     details_url = models.CharField(max_length=300, verbose_name='Путь до описания')
+    description_short = models.CharField(max_length=500, blank=True, verbose_name='Краткое описание')
+    description_long = models.TextField(blank=True, verbose_name='Длинное описание')
     created_at = models.DateTimeField(auto_now_add=True, null=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name='Дата обновления')
 
     def __str__(self):
-        return self.title
- 
+        return f'{self.id}. {self.title}'
+
 
 class Image(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='images', verbose_name='Место')
