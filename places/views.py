@@ -1,7 +1,8 @@
 from typing import Iterator
 
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse
 
 from .models import Place
 
@@ -11,15 +12,15 @@ def get_places() -> Iterator:
 
     for place in places:
         data = {
-            "type": place.type,
-            "geometry": {
-                "type": place.geometry_type,
-                "coordinates": [place.latitude, place.longitude]
+            'type': place.type,
+            'geometry': {
+                'type': place.geometry_type,
+                'coordinates': [place.latitude, place.longitude]
             },
-            "properties": {
-                "title": place.title,
-                "placeId": place.place_id,
-                "detailsUrl": place.details_url
+            'properties': {
+                'title': place.title,
+                'placeId': place.place_id,
+                'detailsUrl': reverse('place_id', args=[place.id])
             }
         }
         yield data
@@ -33,6 +34,7 @@ def get_places_map(request) -> render:
           dict(place) for place in places
       ]
     }
+    print(places_geo)
 
     return render(request, 'main_page_map.html', context={'places_geo': places_geo})
 
