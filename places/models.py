@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.html import format_html
 
 
 class Place(models.Model):
@@ -24,6 +25,11 @@ class Image(models.Model):
     position = models.IntegerField(blank=True, null=True, verbose_name='Позиция картинки')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name='Дата обновления')
+
+    def image_preview(self):
+        return format_html('<img src="{}" width="100" />'.format(self.image.url))
+
+    image_preview.short_description = 'Изображение'
 
     def __str__(self):
         return f'{self.id}. {self.place.title}'
