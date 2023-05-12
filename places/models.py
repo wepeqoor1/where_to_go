@@ -18,18 +18,24 @@ class Place(models.Model):
     def __str__(self):
         return f'{self.id}. {self.title}'
 
+    class Meta:
+        ordering = ('place_id',)
+
 
 class Image(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name='images', verbose_name='Место')
     image = models.ImageField(upload_to='places/', verbose_name='Ссылка на изображение')
-    position = models.IntegerField(blank=True, null=True, verbose_name='Позиция картинки')
+    position = models.PositiveIntegerField(blank=True, null=True, db_index=True, verbose_name='Позиция картинки')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, null=True, verbose_name='Дата обновления')
 
+    def __str__(self):
+        return f'{self.id}. {self.place.title}'
+
     def image_preview(self):
-        return format_html('<img src="{}" width="100" />'.format(self.image.url))
+        return format_html(f'<img src="{self.image.url}" width="100"/>')
 
     image_preview.short_description = 'Изображение'
 
-    def __str__(self):
-        return f'{self.id}. {self.place.title}'
+    class Meta:
+        ordering = ('position', )
