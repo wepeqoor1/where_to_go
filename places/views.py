@@ -34,7 +34,6 @@ def get_places_map(request) -> render:
           dict(place) for place in places
       ]
     }
-    print(places_geo)
 
     return render(request, 'main_page_map.html', context={'places_geo': places_geo})
 

@@ -15,7 +15,7 @@ SECRET_KEY = env.str('DJANGO_API_KEY')
 
 DEBUG = env.bool('DJANGO_DEBUG', False)
 
-ALLOWED_HOSTS: List[Any] = []
+ALLOWED_HOSTS: List[str] = ['127.0.0.1', ]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
